@@ -6,17 +6,21 @@ on MNIST dataset
 ## Getting Started
 
 Install Numpy using pip
+
 `pip install numpy`
 
 Clone the repository
+
 `git clone ... `
 
 Download the data
+
 `./data/download.sh`
 
 ### Prerequisites
 
 Python 2.7
+
 Numpy 1.13.3
 
 ## Running the nueral network
@@ -37,3 +41,7 @@ To start the training, you can run
 * Michael Neilson's Neural Network and Deep Learning book for learning
 more about neural network and their working
 
+
+
+Note: this code is intended for a coding challenge. Please don't plagiarize it
+if you are participating in the challenge.
