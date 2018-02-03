@@ -65,10 +65,7 @@ def sigmoid( x ):
 
     """
     
-    #Array of ones with the same shape as x
-    one_arr = np.ones( x.shape )
-
-    return one_arr / ( one_arr + np.exp( -1. * x ) )
+    return 1. / ( 1. + np.exp( - x ) )
 
 def softmax( x, axis=-1 ):
     """Computes the softmax activation function across a given axis
@@ -95,6 +92,9 @@ def softmax( x, axis=-1 ):
         Some error for range, type?
 
     """
+    x = x - x.max()
+    exps = np.exp( x )
+    exps[ exps == 0 ] += np.random.random()
+    norm = np.sum( exps, axis=axis, keepdims=True )
+    return exps / norm
     
-    norm = np.sum( np.exp( x ), axis=axis )
-    return np.exp( x ) / norm
