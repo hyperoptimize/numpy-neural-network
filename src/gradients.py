@@ -4,18 +4,58 @@ import pdb
 
 
 def relu_grad( x ):
-    x_prime = x.copy()
-    x_prime[ x_prime <= 0 ] = 0
-    x_prime[ x_prime > 0 ] = 1
-    return x_prime
+    """
+    Computes the gradient of the ReLU activation function. This is 
+    given by
+        g'(x) = 1 if x > 0 else 0
+
+    Although the gradient is not defined at x=0, which is the inflection
+    point of the curve, we can approximate the gradient to be zero
+
+    Args:
+        x (np.ndarray): The input vector to the relu during forward
+        propogation of shape (M,N)
+
+    Returns:
+        A vector of derivatives of shape (M,N)
+    """
+    x[ x <= 0 ] = 0
+    x[ x > 0 ] = 1
+    return x
 
 def sigmoid_grad( x ):
-    #TODO This doesn't work for x as a matrix
-    return sigmoid( x ) * ( 1 - sigmoid( x ) )
+    """
+    Computes the derivative of the sigmoid function given by
+        \sigma( x ) \odot \sigma( 1 - x )
+
+    Here \odot represents the haddamard product which is an elemen-wise
+    multiplication of two vectors
+
+    Args:
+        x (np.ndarray): The input vector to the sigmoid during forward
+        propogation of shape (M,N)
+
+    Returns:
+        A vector of derivatives of shape (M,N)
+    """
+    sig_x = sigmoid( x )
+    return sig_x * ( 1 - sig_x )
 
 def softmax_grad( x ):
-    #x is a vector
-    #returns a jacobian matrix
+    """
+    Computes the gradient of the softmax function. The softmax takes
+    a vector of inputs and computes the jacobian for the partial
+    derivatives of the function with respect to the input
+        J_{i,j} = \partial f_i( x ) / \partial x_j
+
+    Args:
+        x (np.ndarray): The input vector to the softmax during forward
+        propogation of shape (M,)
+
+    Returns:
+        A Jacobian of shape (M,M) which contains the partial derivatives
+    """
+
     f_x = np.squeeze( softmax( x ) )
     n = len( f_x )
     mask = np.eye( n, dtype=bool )
@@ -29,9 +69,3 @@ def softmax_grad( x ):
     jac[ ~mask ] = - f_x[ i_idx ] * f_x[ k_idx ]
 
     return jac
-
-def cross_entropy_grad( logits=None, labels=None ):
-    assert ( logits is not None and labels is not None ),\
-            "Usage: cross_entropy( logits=.., labels=.. )"
-    return labels - logits
-    
