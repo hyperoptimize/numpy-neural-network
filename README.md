@@ -42,7 +42,7 @@ Batch normalization would be added to the ouptut of the ReLU units
 
 The update for the delta changes as: `delta = delta_prev . W_prev^T * g' * ( 1 - 1/N )`
 where `g'` represents the derivative of the activataion function, `N` represents the number of samples in the mini-batch, `.` represents dot product
-and `*` represents haddamard product.
+and `*` represents haddamard product. Here the `(1-1/N)` term is a column vector which gets broadcasted upon taking the haddamard product.
 
 The betas are update as: `1 . delta_prev . W_prev^T` where the `1` represents the one vector. Instead of using the one vector, a summation over the first axis can be done to achieve the same results.
 
